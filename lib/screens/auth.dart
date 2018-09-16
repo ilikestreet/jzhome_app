@@ -106,7 +106,9 @@ class AuthScreenState extends State<AuthScreen> {
                 buttonColor: Colors.blue,
                 paddingExternal: const EdgeInsets.all(10.0),
                 paddingInternal: const EdgeInsets.all(10.0),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed("/home");
+                },
               ),
             ),
           ],
