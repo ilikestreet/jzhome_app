@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:native_widgets/native_widgets.dart';
 
-class AuthScreen extends StatefulWidget {
+class SignInScreen extends StatefulWidget {
   @override
-  AuthScreenState createState() {
-    return AuthScreenState();
+  SignInScreenState createState() {
+    return SignInScreenState();
   }
 }
 
-class AuthScreenState extends State<AuthScreen> {
-
+class SignInScreenState extends State<SignInScreen> {
+  String _username, _password;
   final formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -28,6 +28,43 @@ class AuthScreenState extends State<AuthScreen> {
       rememberMe = value;
 //      widget.prefs.setBool('rememberMe', value);
     });
+  }
+
+  Future<Null> _submit() async {
+    final form = formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      final snackbar = SnackBar(
+        duration: Duration(seconds: 30),
+        content: Row(
+          children: <Widget>[NativeLoadingIndicator(), Text("  Logging In...")],
+        ),
+      );
+      _scaffoldKey.currentState.showSnackBar(snackbar);
+      print("username $_username");
+      //TODO: add call sign in api in here
+//      appAuth
+//          .store(_username.toString().toLowerCase().trim(),
+//          _password.toString().trim())
+//          .then((onValue) {
+//        appAuth.login().then((result) {
+//          if (result) {
+//            // Navigator.of(context).pushReplacementNamed('/home');
+//            Login.showTouchID(context); //Show Touch ID Once After Install
+//          } else {
+//            setState(() => this._status = 'rejected');
+//            globals.Utility
+//                .showAlertPopup(context, 'Info', globals.errorMessage);
+//          }
+//          if (!globals.isBioSetup) {
+//            setState(() {
+//              print('Bio No Longer Setup');
+//            });
+//          }
+//          _scaffoldKey.currentState.hideCurrentSnackBar();
+//        });
+//      });
+    }
   }
 
   Widget build(BuildContext context) {
@@ -49,7 +86,7 @@ class AuthScreenState extends State<AuthScreen> {
               ),
             ),
             Form(
-//              key: formKey,
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -58,7 +95,7 @@ class AuthScreenState extends State<AuthScreen> {
                       decoration: InputDecoration(labelText: 'Username'),
                       validator: (val) =>
                       val.length < 1 ? 'Username Required' : null,
-//                      onSaved: (val) => _username = val,
+                      onSaved: (val) => _username = val,
                       obscureText: false,
                       keyboardType: TextInputType.text,
                       controller: _controllerUsername,
@@ -73,7 +110,7 @@ class AuthScreenState extends State<AuthScreen> {
                       decoration: InputDecoration(labelText: 'Password'),
                       validator: (val) =>
                       val.length < 1 ? 'Password Required' : null,
-//                      onSaved: (val) => _password = val,
+                      onSaved: (val) => _password = val,
                       obscureText: true,
                       controller: _controllerPassword,
                       keyboardType: TextInputType.text,
@@ -106,9 +143,11 @@ class AuthScreenState extends State<AuthScreen> {
                 buttonColor: Colors.blue,
                 paddingExternal: const EdgeInsets.all(10.0),
                 paddingInternal: const EdgeInsets.all(10.0),
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed("/home");
-                },
+                  onPressed: _submit
+//                {
+//                  print("username ${this._username}");
+////                  Navigator.of(context).pushReplacementNamed("/home");
+//                },
               ),
             ),
           ],
