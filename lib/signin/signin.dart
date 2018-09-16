@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:native_widgets/native_widgets.dart';
+import 'package:jzhome_app/main.dart';
+import 'package:jzhome_app/globals.dart' as globals;
+
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class SignInScreenState extends State<SignInScreen> {
+  String _status = 'no-action';
   String _username, _password;
   final formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -43,27 +47,27 @@ class SignInScreenState extends State<SignInScreen> {
       _scaffoldKey.currentState.showSnackBar(snackbar);
       print("username $_username");
       //TODO: add call sign in api in here
-//      appAuth
-//          .store(_username.toString().toLowerCase().trim(),
-//          _password.toString().trim())
-//          .then((onValue) {
-//        appAuth.login().then((result) {
-//          if (result) {
-//            // Navigator.of(context).pushReplacementNamed('/home');
-//            Login.showTouchID(context); //Show Touch ID Once After Install
-//          } else {
-//            setState(() => this._status = 'rejected');
-//            globals.Utility
-//                .showAlertPopup(context, 'Info', globals.errorMessage);
-//          }
-//          if (!globals.isBioSetup) {
-//            setState(() {
-//              print('Bio No Longer Setup');
-//            });
-//          }
-//          _scaffoldKey.currentState.hideCurrentSnackBar();
-//        });
-//      });
+     appAuth
+         .store(_username.toString().toLowerCase().trim(),
+         _password.toString().trim())
+         .then((onValue) {
+       appAuth.login().then((result) {
+         if (result) {
+           Navigator.of(context).pushReplacementNamed('/home');
+          //  Login.showTouchID(context); //Show Touch ID Once After Install
+         } else {
+           setState(() => this._status = 'rejected');
+           globals.Utility
+               .showAlertPopup(context, 'Info', globals.errorMessage);
+         }
+         if (!globals.isBioSetup) {
+           setState(() {
+             print('Bio No Longer Setup');
+           });
+         }
+         _scaffoldKey.currentState.hideCurrentSnackBar();
+       });
+     });
     }
   }
 

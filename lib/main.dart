@@ -4,6 +4,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:jzhome_app/jzhome_app.dart';
 import 'package:jzhome_app/model/card_items.dart';
 import 'package:jzhome_app/reducers/card_items_reducer.dart';
+import 'package:jzhome_app/signin/auth_service.dart';
+
+AuthService appAuth = new AuthService();
 
 void main() => runApp(new MyApp());
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jzhome_app/screens/ip_address.dart';
-import 'package:jzhome_app/screens/sigin.dart';
+import 'package:jzhome_app/signin/signin.dart';
 
 class JzHomeApp extends StatelessWidget {
   @override
