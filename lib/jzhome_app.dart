@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jzhome_app/screens/ip_address.dart';
 import 'package:jzhome_app/screens/auth.dart';
+import 'package:jzhome_app/screens/ip_address.dart';
 
 class JzHomeApp extends StatelessWidget {
   @override
@@ -8,7 +8,11 @@ class JzHomeApp extends StatelessWidget {
     return new MaterialApp(
       title: 'JzHome',
       theme: ThemeData.dark(),
-      home: new AuthScreen(),
+        initialRoute: "/",
+        routes: <String, WidgetBuilder>{
+          '/': (context) => new AuthScreen(),
+          '/home': (context) => new IpAddress()
+        }
     );
   }
 }
