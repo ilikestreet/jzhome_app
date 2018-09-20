@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:native_widgets/native_widgets.dart';
 
@@ -34,7 +35,8 @@ class User {
 
   @override
   String toString() {
-    return "$firstname $lastname".toString();
+    return "firstname = $firstname lastname = $lastname token = $token"
+        .toString();
   }
 }
 
@@ -109,12 +111,10 @@ class Utility {
     String result;
     try {
       var request = await httpClient.postUrl(Uri.parse(url));
-      
+
+      request.headers.set('Content-Type', 'application/json');
       var jsonString = json.encode(body);
-      String paramName = 'param'; // give the post param a name
-      String formBody = paramName + '=' + Uri.encodeQueryComponent(jsonString);
-      List<int> bodyBytes = utf8.encode(formBody); // utf8 encode
-      request.add(bodyBytes);
+      request.add(utf8.encode(jsonString));
 
       var response = await request.close();
       if (response.statusCode == HttpStatus.ok) {

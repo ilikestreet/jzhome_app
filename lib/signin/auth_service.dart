@@ -45,6 +45,7 @@ class AuthService {
         id: _id,
         token: _token,
       );
+      print("User ${globals.currentUser}");
     } catch (exception) {
       print("Error Decoding Data (login): $exception");
     }
