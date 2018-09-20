@@ -59,41 +59,32 @@ class AuthService {
   Future<void> logout() async {
     globals.currentUser?.token = "";
     globals.logoutFromMenu = true;
-    globals.Utility.getData("", null);
+    globals.Utility.getData("", null, "");
     return;
   }
 
-  Future<String> getToken() async {
-    globals.currentUser?.token = "";
-    String token = "";
-    var prefs = await SharedPreferences.getInstance();
-    String _username = prefs.getString('username');
-    String _password = prefs.getString('password');
-    if (_username == null || _password == null) return "";
-
-    // Get New Token
-    var mapData = Map();
-    mapData["username"] = "" + _username;
-    mapData["password"] = "" + _password;
-    String _result = await globals.Utility.getData("", null);
+  Future<String> getAllIpAddress() async {
+    String token = globals.currentUser?.token;
+    String _result = await globals.Utility.getData(
+        "${globals.apiURL}ipByServer",
+        Map.of({"server": "whatsup"}), token);
     try {
       Map decoded = json.decode(_result);
       if (decoded.toString().toLowerCase().contains('error')) {
         globals.errorMessage = "" + decoded[0]['Description'].toString();
         return "";
       } else {
-        token = decoded['data']['Token'].toString() ?? "";
       }
     } catch (exception) {
-      print("Error Decoding Data (token): $exception");
+      print("Error Decoding Data (getAllIpAddress): $exception");
     }
-    globals.currentUser?.token = token;
 
-    return token;
+    return "";
   }
 
+
   Future<bool> checkToken() async {
-    String response = await globals.Utility.getData("", null);
+    String response = await globals.Utility.getData("", null, "");
     print("Response: " + response);
     try {
       if (response.contains('Invalid Token')) {

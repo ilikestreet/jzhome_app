@@ -74,15 +74,22 @@ class Utility {
         ));
   }
 
-  static Future<String> getData(String requestURL, Map params) async {
-    print("Request URL: " + requestURL);
-    print("params " + params.toString());
+  static Future<String> getData(String requestURL, Map headers,
+      String token) async {
+    var url = requestURL + "?";
+    for (var each in headers.entries) {
+      if (headers.length > 1) {
+        url += "&";
+      }
+      url += "${each.key}=${each.value}";
+    }
+    print("Request URL: " + url);
 
-    var url = requestURL;
     var httpClient = new HttpClient();
     String result;
     try {
       var request = await httpClient.getUrl(Uri.parse(url));
+      request.headers.set("Authorization", "Bearer $token");
       var response = await request.close();
       if (response.statusCode == HttpStatus.ok) {
         try {
@@ -93,10 +100,10 @@ class Utility {
         }
       } else {
         result =
-            'Error getting IP address:\nHttp status ${response.statusCode}';
+        'Error getting response\nHttp status ${response.statusCode}';
       }
     } catch (exception) {
-      result = 'Failed getting IP address';
+      result = 'Failed getting response ';
     }
     print("Result: " + result);
     return result;

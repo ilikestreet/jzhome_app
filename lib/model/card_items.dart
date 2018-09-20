@@ -1,11 +1,11 @@
 class CartItem {
-  String name;
+  String ip;
   bool checked;
 
-  CartItem(this.name, this.checked);
+  CartItem(this.ip, this.checked);
 
   @override
   String toString() {
-    return "$name: $checked";
+    return "$ip: $checked";
   }
 }
